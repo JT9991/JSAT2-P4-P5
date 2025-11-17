@@ -7,3 +7,4 @@ class Movie{
         this.rating=rating;
     }
 }
+console.log(Movie);
