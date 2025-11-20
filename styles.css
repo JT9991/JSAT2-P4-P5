@@ -1,0 +1,203 @@
+/* ==============================
+   GLOBAL COLORS (Your Palette)
+   ============================== */
+:root {
+    --blue: #0A1743;
+    --gold: #F6A60E;
+    --red: #E3192F;
+    --white: #ffffff;
+}
+
+/* ==============================
+   BASE LAYOUT
+   ============================== */
+body {
+    font-family: Arial, sans-serif;
+    background: var(--blue);
+    color: var(--white);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 750px;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.mainHeader {
+    text-align: center;
+}
+
+h1, h2 {
+    color: var(--gold);
+}
+
+/* ==============================
+   INPUTS & BUTTONS
+   ============================== */
+input, button {
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--gold);
+}
+
+input, button {
+    border: 1px solid #F6A60E; /* gold */
+}
+
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
+
+*{
+
+    box-sizing: border-box;
+}
+input {
+    width: 100%;
+    background: rgba(255,255,255,0.1);
+    color: var(--white);
+}
+
+button {
+    background: var(--gold);
+    color: var(--blue);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #d98f0b; /* darker gold */
+}
+
+[ Search ]   [ Clear ]
+
+
+
+
+/* ==============================
+   CARD LAYOUT
+   ============================== */
+.card {
+    background: rgba(255,255,255,0.05);
+    padding: 16px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+/* ==============================
+   TABLE
+   ============================== */
+#movie-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#movie-table th {
+    background: rgba(255,255,255,0.15);
+    padding: 10px;
+    text-align: left;
+    color: var(--gold);
+}
+
+#movie-table td {
+    padding: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+/* ==============================
+   SEARCH ROWS
+   ============================== */
+.search-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.search-row label {
+    width: 140px;
+}
+
+.search-row input {
+    flex: 1;
+}
+
+/* ==============================
+   SEARCH RESULT CARDS
+   ============================== */
+.movie-card {
+    background: rgba(255,255,255,0.1);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 4px solid var(--gold);
+}
+
+.movie-card h3 {
+    margin: 0 0 5px 0;
+    color: var(--gold);
+}
+
+/* ==============================
+   BUTTON ROW
+   ============================== */
+.button-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.clear-btn {
+    background: var(--gold);
+    color: var(--blue);
+    margin-left: 8px;
+}
+
+.clear-btn:hover {
+    background: #d98f0b;
+}
+
+
+/* ==============================
+   FOOTER
+   ============================== */
+.footer {
+    text-align: center;
+    padding: 14px;
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    color: var(--gold);
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+
+/* ==============================
+   RESPONSIVE
+   ============================== */
+@media (max-width: 600px) {
+    .button-row,
+    .search-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    button {
+        width: 100%;
+    }
+}
