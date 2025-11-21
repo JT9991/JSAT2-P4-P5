@@ -1,3 +1,6 @@
+// ===============================
+// Movie Class
+// ===============================
 class Movie {
     constructor(id, title, year, rating) {
         this.id = id;
@@ -7,6 +10,9 @@ class Movie {
     }
 }
 
+// ===============================
+// Movie List Class
+// ===============================
 class MovieList {
     constructor() {
         this.movies = [
@@ -19,13 +25,14 @@ class MovieList {
             new Movie(44, "Iron Man", 2008, 7.9),
             new Movie(81, "The Dark Knight", 2008, 9.0),
             new Movie(19, "Gladiator", 2000, 8.5),
-            new Movie(56, "Braveheart", 1995, 8.3)
+            new Movie(56, "Braveheart", 1995, 8.3),
+            new Movie(99, "The Lord of the Rings", 2001, 8.9),
+            new Movie(89, "The Lord of the Rings: The Two Towers", 2002, 8.8)
         ];
     }
 
     addMovie(movie) {
-        const exists = this.movies.some(m => m.id === movie.id);
-        if (exists) return false;
+        if (this.movies.some(m => m.id === movie.id)) return false;
         this.movies.push(movie);
         return true;
     }
@@ -35,19 +42,12 @@ class MovieList {
     }
 
     searchById(id) {
-        for (let i = 0; i < this.movies.length; i++) {
-        if (this.movies[i].id === id) {
-            return this.movies[i];
-        }
+        return this.movies.find(m => m.id === id) || null;
     }
-    return null;
-}
-
 
     searchByTitle(text) {
-        const lower = text.toLowerCase();
         return this.movies.filter(m =>
-            m.title.toLowerCase().includes(lower)
+            m.title.toLowerCase().includes(text.toLowerCase())
         );
     }
 
@@ -63,78 +63,67 @@ class MovieList {
         this.movies.sort((a, b) => b.rating - a.rating);
     }
 
-    deleteMovie(id){
-        const index = this.movies.findIndex(m=> m.id === id);
+    deleteMovie(id) {
+        const index = this.movies.findIndex(m => m.id === id);
         if (index === -1) return false;
-
         this.movies.splice(index, 1);
         return true;
     }
 
-    updateMovie(id, newTitle, newYear, newRating){
-        const movie = this.movies.find(m=> m.id === id);
+    updateMovie(id, title, year, rating) {
+        const movie = this.movies.find(m => m.id === id);
         if (!movie) return false;
-
-        movie.title = newTitle;
-        movie.year = newYear;
-        movie.rating = newRating;
+        movie.title = title;
+        movie.year = year;
+        movie.rating = rating;
         return true;
-
-
     }
 }
 
 const movieList = new MovieList();
 
-function renderMovieTable() {
-    const tbody = document.querySelector("#movie-table tbody");
-    tbody.replaceChildren();
+// ===============================
+// Render Movie List
+// ===============================
+function renderMovieList(movies = movieList.getMovies()) {
+    const list = document.getElementById("movie-list");
+    list.replaceChildren();
 
-    movieList.getMovies().forEach(movie => {
-        const row = document.createElement("tr");
+    movies.forEach(movie => {
+        const card = document.createElement("div");
+        card.className = "movie-box";
 
-        const idCell = document.createElement("td");
-        idCell.textContent = movie.id;
+        const title = document.createElement("h3");
+        title.textContent = movie.title;
 
-        const titleCell = document.createElement("td");
-        titleCell.textContent = movie.title;
+        const id = document.createElement("p");
+        id.textContent = `ID: ${movie.id}`;
 
-        const yearCell = document.createElement("td");
-        yearCell.textContent = movie.year;
+        const year = document.createElement("p");
+        year.textContent = `Year: ${movie.year}`;
 
-        const ratingCell = document.createElement("td");
-        ratingCell.textContent = movie.rating;
+        const rating = document.createElement("p");
+        rating.textContent = `Rating: ⭐ ${movie.rating}`;
 
-        const updateCell = document.createElement("td");
-        const updateBtn= document.createElement("button");
-        updateBtn.textContent = "Update";
-        updateBtn.className = "update-btn";
-        updateBtn.addEventListener("click", () => handleUpdate(movie));
-        updateCell.appendChild(updateBtn);
-        
-        const deleteCell = document.createElement("td");
-        const deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "Delete";
-        deleteBtn.className = "delete-btn";
-        deleteBtn.addEventListener("click", () => handleDelete(movie.id));
-        deleteCell.appendChild(deleteBtn);
-        
-        row.append(idCell, titleCell, yearCell, ratingCell, updateCell, deleteCell);
-        tbody.appendChild(row);
+        card.append(title, id, year, rating);
+        list.appendChild(card);
     });
 }
 
+
+// ===============================
+// Render Search Results (Only in search section)
+// ===============================
 function renderSearchResults(results) {
     const container = document.getElementById("search-results");
     container.replaceChildren();
 
-    // Normalize data
     const items = Array.isArray(results) ? results : (results ? [results] : []);
 
     if (items.length === 0) {
-        const p = document.createElement("p");
-        p.textContent = "No results found.";
-        container.appendChild(p);
+        const msg = document.createElement("p");
+        msg.textContent = "No results found.";
+        container.appendChild(msg);
         return;
     }
 
@@ -152,89 +141,160 @@ function renderSearchResults(results) {
         year.textContent = `Year: ${movie.year}`;
 
         const rating = document.createElement("p");
-        rating.textContent = `Rating: ${movie.rating}`;
+        rating.textContent = `Rating: ⭐ ${movie.rating}`;
 
         card.append(title, id, year, rating);
         container.appendChild(card);
     });
 }
 
-function handleDelete(id) {
-    const confirmed = confirm("Are you sure you want to delete this movie?");
-    if (!confirmed) return;
-
-    movieList.deleteMovie(id);
-    renderMovieTable();
-}
-
-function handleUpdate(movie) {
-    document.getElementById("movie-id").value = movie.id;
-    document.getElementById("movie-title").value = movie.title;
-    document.getElementById("movie-year").value = movie.year;
-    document.getElementById("movie-rating").value = movie.rating;
-
-    const msg = document.getElementById("add-message");
-    msg.textContent = "Edit fields and click Add Movie to update.";
-    msg.style.color = "#F6A60E";
-}
-
-
+// ===============================
+// DOM LOADED
+// ===============================
 document.addEventListener("DOMContentLoaded", () => {
-    renderMovieTable();
 
-    // SEARCH BUTTON
+    renderMovieList();
+
+    // ===============================
+    // SEARCH
+    // ===============================
     document.getElementById("search-btn").addEventListener("click", () => {
-        const idValue = document.getElementById("search-id").value;
-        const titleValue = document.getElementById("search-title").value.trim();
+        const id = Number(document.getElementById("search-id").value);
+        const title = document.getElementById("search-title").value.trim();
 
-        if (idValue) {
-            const result = movieList.searchById(Number(idValue));
-            renderSearchResults(result);
-            return;
+        let results = [];
+
+        if (id) {
+            const movie = movieList.searchById(id);
+            results = movie ? [movie] : [];
+        } else if (title) {
+            results = movieList.searchByTitle(title);
         }
 
-        if (titleValue !== "") {
-            const results = movieList.searchByTitle(titleValue);
-            renderSearchResults(results);
-            return;
-        }
-
-        renderSearchResults([]); 
+        renderMovieList(results); // NOW print in movie list section ONLY
     });
 
-    // CLEAR SEARCH BUTTON — **MOVED OUTSIDE**
     document.getElementById("clear-search-btn").addEventListener("click", () => {
         document.getElementById("search-id").value = "";
         document.getElementById("search-title").value = "";
         document.getElementById("search-results").replaceChildren();
     });
 
-    // CLEAR ADD MOVIE BUTTON 
-    document.getElementById("clear-add-btn").addEventListener("click", () => {
-    document.getElementById("movie-id").value = "";
-    document.getElementById("movie-title").value = "";
-    document.getElementById("movie-year").value = "";
-    document.getElementById("movie-rating").value = "";
+    // ===============================
+    // SORT + REFRESH
+    // ===============================
+    document.getElementById("sort-az-btn").addEventListener("click", () => {
+        movieList.sortAZ();
+        renderMovieList();
+    });
 
-    const msg = document.getElementById("add-message");
-    msg.textContent = "";
+    document.getElementById("sort-za-btn").addEventListener("click", () => {
+        movieList.sortZA();
+        renderMovieList();
+    });
 
-    document.getElementById("add-movie-btn").textContent = "Add Movie";
-});
+    document.getElementById("sort-best-btn").addEventListener("click", () => {
+        movieList.sortBest();
+        renderMovieList();
+    });
 
+    // ALWAYS show full list again
+    document.getElementById("refresh-btn").addEventListener("click", () => {
+        renderMovieList();
+    });
 
-    // ADD + UPDATE MOVIE BUTTON
-    document.getElementById("add-movie-btn").addEventListener("click", () => {
+    // ===============================
+    // MANAGE MOVIES
+    // ===============================
+    document.getElementById("manage-update-btn").addEventListener("click", () => {
+        const id = Number(document.getElementById("manage-id").value);
+        const msg = document.getElementById("manage-message");
+
+        const movie = movieList.searchById(id);
+        if (!movie) {
+            msg.textContent = "Movie ID not found.";
+            msg.style.color = "red";
+            return;
+        }
+
+        msg.textContent = `Loaded: ${movie.title}. Open Add Movie popup to edit.`;
+        msg.style.color = "var(--gold)";
+
+        document.getElementById("movie-id").value = movie.id;
+        document.getElementById("movie-title").value = movie.title;
+        document.getElementById("movie-year").value = movie.year;
+        document.getElementById("movie-rating").value = movie.rating;
+    });
+
+    document.getElementById("manage-delete-btn").addEventListener("click", () => {
+        const id = Number(document.getElementById("manage-id").value);
+        const msg = document.getElementById("manage-message");
+
+        if (!id) {
+            msg.textContent = "Enter a valid ID.";
+            msg.style.color = "red";
+            return;
+        }
+
+        if (!confirm("Delete this movie?")) return;
+
+        const ok = movieList.deleteMovie(id);
+        if (!ok) {
+            msg.textContent = "Movie ID not found.";
+            msg.style.color = "red";
+            return;
+        }
+
+        msg.textContent = "Movie deleted.";
+        msg.style.color = "lightgreen";
+
+        renderMovieList();
+    });
+
+    document.getElementById("manage-clear-btn").addEventListener("click", () => {
+        document.getElementById("manage-id").value = "";
+        document.getElementById("manage-message").textContent = "";
+    });
+
+    // ===============================
+    // MODAL
+    // ===============================
+    const modal = document.getElementById("add-modal");
+    const open = document.getElementById("open-add-modal-btn");
+    const close = document.getElementById("close-add-modal-btn");
+    const save = document.getElementById("add-movie-btn");
+
+    open.addEventListener("click", () => {
+        modal.classList.remove("hidden");
+        document.getElementById("add-message").textContent = "";
+        document.getElementById("modal-extra").replaceChildren();
+
+        document.getElementById("movie-id").value = "";
+        document.getElementById("movie-title").value = "";
+        document.getElementById("movie-year").value = "";
+        document.getElementById("movie-rating").value = "";
+    });
+
+    close.addEventListener("click", () => {
+        modal.classList.add("hidden");
+    });
+
+    // SAVE MOVIE
+    save.addEventListener("click", () => {
         const id = Number(document.getElementById("movie-id").value);
         const title = document.getElementById("movie-title").value.trim();
         const year = Number(document.getElementById("movie-year").value);
         const rating = Number(document.getElementById("movie-rating").value);
 
-        const msg = document.getElementById("add-message");
+        const message = document.getElementById("add-message");
+        const extra = document.getElementById("modal-extra");
+
+        message.textContent = "";
+        extra.replaceChildren();
 
         if (!id || !title || !year || isNaN(rating)) {
-            msg.textContent = "Please fill all fields correctly.";
-            msg.style.color = "red";
+            message.textContent = "Please fill all fields.";
+            message.style.color = "red";
             return;
         }
 
@@ -242,64 +302,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (exists) {
             movieList.updateMovie(id, title, year, rating);
-            msg.textContent = "Movie updated successfully!";
+            message.textContent = "Movie updated!";
         } else {
             movieList.addMovie(new Movie(id, title, year, rating));
-            msg.textContent = "Movie added successfully!";
+            message.textContent = "Movie added!";
         }
 
-        msg.style.color = "lightgreen";
-        renderMovieTable();
+        message.style.color = "lightgreen";
+        renderMovieList();
+
+        // Done button
+        const doneBtn = document.createElement("button");
+        doneBtn.textContent = "Done";
+        doneBtn.className = "clear-btn";
+
+        doneBtn.addEventListener("click", () => {
+            modal.classList.add("hidden");
+            extra.replaceChildren();
+            message.textContent = "";
+        });
+
+        extra.appendChild(doneBtn);
     });
 
-    // SORT BUTTONS
-    document.getElementById("sort-az-btn").addEventListener("click", () => {
-        movieList.sortAZ();
-        renderMovieTable();
-    });
-
-    document.getElementById("sort-za-btn").addEventListener("click", () => {
-        movieList.sortZA();
-        renderMovieTable();
-    });
-
-    document.getElementById("sort-best-btn").addEventListener("click", () => {
-        movieList.sortBest();
-        renderMovieTable();
-    });
-
-    document.getElementById("refresh-btn").addEventListener("click", renderMovieTable);
 });
-
-
-
-
-    document.getElementById("add-movie-btn").addEventListener("click", () => {
-    const id = Number(document.getElementById("movie-id").value);
-    const title = document.getElementById("movie-title").value.trim();
-    const year = Number(document.getElementById("movie-year").value);
-    const rating = Number(document.getElementById("movie-rating").value);
-
-    const msg = document.getElementById("add-message");
-
-    if (!id || !title || !year || isNaN(rating)) {
-        msg.textContent = "Please fill all fields correctly.";
-        msg.style.color = "red";
-        return;
-    }
-
-    const exists = movieList.searchById(id);
-
-    if (exists) {
-        movieList.updateMovie(id, title, year, rating);
-        msg.textContent = "Movie updated successfully!";
-        msg.style.color = "lightgreen";
-    } else {
-        movieList.addMovie(new Movie(id, title, year, rating));
-        msg.textContent = "Movie added successfully!";
-        msg.style.color = "lightgreen";
-    }
-
-    renderMovieTable();
-});
-    

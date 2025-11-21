@@ -1,92 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Movie Manager</title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
-<div class="container">
-        <div class = mainHeader>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Manager</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class=mainHeader>
             <h1> Welcome To My Movie App </h1>
         </div>
-        
-<section class="card">
-    <h2>Search Movie</h2>
 
-    <div class="search-row">
-        <label>Search by ID</label>
-        <input type="number" id="search-id">
+        <section class="card manage-section">
+            <h2>Search Movie</h2>
+
+            <div class="search-row">
+                <label>Search by ID</label>
+                <input type="number" id="search-id">
+            </div>
+
+            <div class="search-row">
+                <label>Search by Title</label>
+                <input type="text" id="search-title">
+            </div>
+
+            <div class="button-row">
+                <button id="search-btn">Search</button>
+                <button id="clear-search-btn" class="clear-btn">Clear</button>
+            </div>
+
+            <div id="search-results" class="search-results"></div>
+        </section>
+
+        <!-- Display Movie List -->
+        <section class="card manage-section">
+            <h2>Movie List</h2>
+
+            <div class="button-row">
+                <button id="refresh-btn">Refresh List</button>
+                <button id="sort-az-btn">Sort A–Z</button>
+                <button id="sort-za-btn">Sort Z–A</button>
+                <button id="sort-best-btn">Best Movies</button>
+                <button id="open-add-modal-btn" class="gold-btn">Add New Movie</button>
+            </div>
+
+
+
+            <div id="movie-list" class="movie-grid"></div>
+
+
+
+            <section class="card manage-section">
+                <h2>Manage My Movies</h2>
+
+                <label>Movie ID</label>
+                <input type="number" id="manage-id">
+
+                <div class="button-row">
+                    <button id="manage-update-btn">Update Movie</button>
+                    <button id="manage-delete-btn" class="delete-btn">Delete Movie</button>
+                    <button id="manage-clear-btn" class="clear-btn">Clear</button>
+                </div>
+
+                <p id="manage-message"></p>
+
+
+
+            </section>
+
+            <!-- Add Movie Modal -->
+            <div id="add-modal" class="modal hidden">
+                <div class="modal-content">
+                    <h2>Add / Update Movie</h2>
+
+                    <label>Movie ID</label>
+                    <input type="number" id="movie-id">
+
+                    <label>Title</label>
+                    <input type="text" id="movie-title">
+
+                    <label>Year</label>
+                    <input type="number" id="movie-year">
+
+                    <label>Rating</label>
+                    <input type="number" step="0.1" id="movie-rating">
+
+                    <div class="button-row">
+                        <button id="add-movie-btn">Save Movie</button>
+                        <button id="close-add-modal-btn" class="clear-btn">Cancel</button>
+                    </div>
+
+                    <p id="add-message"></p>
+                    <div id="modal-extra"></div>
+
+                </div>
+            </div>
+
+
+            <footer class="footer">
+                <p>My Movie App © 2025. All Rights Reserved.</p>
+            </footer>
+
     </div>
 
-    <div class="search-row">
-        <label>Search by Title</label>
-        <input type="text" id="search-title">
-    </div>
-
-    <div class="button-row">
-        <button id="search-btn">Search</button>
-        <button id="clear-search-btn" class="clear-btn">Clear</button>
-    </div>
-
-    <div id="search-results" class="search-results"></div>
-</section>
-        
-<!-- Display Movie List -->
-<section class="card">
-    <h2>Movie List</h2>
-    
-    <div class="button-row">
-        <button id="refresh-btn">Refresh List</button>
-        <button id="sort-az-btn">Sort A–Z</button>
-        <button id="sort-za-btn">Sort Z–A</button>
-        <button id="sort-best-btn">Best Movies</button>
-
-    </div>
-    
-    <table id="movie-table">
-        <thead>
-            <tr>
-                <th>Movie ID</th>
-                <th>Title</th>
-                <th>Year</th>
-                <th>Rating</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</section>
-
-<!-- Add Movie Section -->
-<section class="card">
-    <h2>Add Movie</h2>
-
-    <label>Movie ID</label>
-    <input type="number" id="movie-id">
-
-    <label>Title</label>
-    <input type="text" id="movie-title">
-
-    <label>Year</label>
-    <input type="number" id="movie-year">
-
-    <label>Rating</label>
-    <input type="number" step="0.1" id="movie-rating">
-
-    <button id="add-movie-btn">Add Movie</button>
-    <button id="clear-add-btn" class="clear-btn">Clear</button>
-    <p id="add-message"></p>
-
-</section>
-<footer class="footer">
-    <p>My Movie App © 2025. All Rights Reserved.</p>
-</footer>
-
-</footer>
-</div>
-
-<script src="./app.js"></script>
+    <script src="./app.js"></script>
 </body>
+
 </html>

@@ -21,6 +21,16 @@ body {
     justify-content: center;
 }
 
+h1, h2, h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1px;
+}
+
+body, p, label, input, button {
+    font-family: 'Montserrat', sans-serif;
+}
+
+
 .container {
     width: 750px;
     max-width: 90%;
@@ -45,11 +55,6 @@ input, button {
     border: 1px solid var(--gold);
 }
 
-input, button {
-    border: 1px solid #F6A60E; /* gold */
-}
-
-
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -60,11 +65,10 @@ input[type="number"] {
     -moz-appearance: textfield; /* Firefox */
 }
 
-
-*{
-
+* {
     box-sizing: border-box;
 }
+
 input {
     width: 100%;
     background: rgba(255,255,255,0.1);
@@ -82,11 +86,6 @@ button:hover {
     background: #d98f0b; /* darker gold */
 }
 
-[ Search ]   [ Clear ]
-
-
-
-
 /* ==============================
    CARD LAYOUT
    ============================== */
@@ -95,27 +94,6 @@ button:hover {
     padding: 16px;
     margin-bottom: 20px;
     border-radius: 10px;
-}
-
-/* ==============================
-   TABLE
-   ============================== */
-#movie-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-#movie-table th {
-    background: rgba(255,255,255,0.15);
-    padding: 10px;
-    text-align: left;
-    color: var(--gold);
-}
-
-#movie-table td {
-    padding: 8px;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
 }
 
 /* ==============================
@@ -153,6 +131,95 @@ button:hover {
 }
 
 /* ==============================
+   MOVIE LIST BOXES
+   ============================== */
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.movie-box {
+    background: rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: left;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.movie-box h3 {
+    margin: 0 0 8px 0;
+    color: var(--gold);
+    font-size: 1.1rem;
+}
+
+.movie-box p {
+    margin: 4px 0;
+    font-size: 0.9rem;
+}
+
+/* ==============================
+   MANAGE SECTION
+   ============================== */
+.manage-section input {
+    margin-bottom: 10px;
+}
+
+.manage-section .button-row button {
+    flex: 1;
+}
+
+/* ==============================
+   MODAL BACKGROUND
+   ============================== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+/* ==============================
+   MODAL BOX
+   ============================== */
+.modal-content {
+    background: var(--blue);
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    border: 2px solid var(--gold);
+}
+
+.modal-content h2 {
+    color: var(--gold);
+    text-align: center;
+}
+
+.modal-content input {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.modal-content .button-row {
+    display: flex;
+    gap: 10px;
+}
+
+/* ==============================
    BUTTON ROW
    ============================== */
 .button-row {
@@ -171,7 +238,6 @@ button:hover {
     background: #d98f0b;
 }
 
-
 /* ==============================
    FOOTER
    ============================== */
@@ -185,7 +251,6 @@ button:hover {
     font-size: 0.9rem;
     letter-spacing: 0.5px;
 }
-
 
 /* ==============================
    RESPONSIVE
